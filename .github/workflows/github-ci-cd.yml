@@ -24,14 +24,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml       
 
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
-
-    - name: Execute Gradle build
-      run: |
-        chmod +x ./gradlew
-        ./gradlew bootJar
-
     - name: Copy Jar file
       run: mv target/mavendemo-0.0.1-SNAPSHOT.jar project.jar      
     
@@ -64,7 +56,7 @@ jobs:
         REPO_NAME=$(basename "${{ github.repository }}")
         OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
         PACKAGE_NAME="${OWNER}/${REPO_NAME}"
-        RESPONSE=$(curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.DOCKER_PAT }}" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/orgs/next-reply/packages/container/$REPO_NAME/versions)
+        RESPONSE=$(curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.DOCKER_PAT }}" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/users/$OWNER/packages/container/$REPO_NAME/versions)
         echo "RESPONSE: $RESPONSE"
 
         if [[ "$RESPONSE" == *"Package not found"* ]]; then

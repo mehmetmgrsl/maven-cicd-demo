@@ -22,7 +22,7 @@ http://localhost:8080/test
 
 This GitHub Actions workflow (on main branch):
  - sets up an environment with JDK 11, 
- - builds a Java application using Gradle, 
+ - builds a Java application using Maven, 
  - creates a JAR file, 
  - uploads it as an artifact, 
  - retrieves the latest Docker image version from the private GitHub Container Registry, 

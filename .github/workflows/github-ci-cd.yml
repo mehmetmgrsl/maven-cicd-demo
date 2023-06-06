@@ -2,36 +2,18 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/common-ci-cd" ]
 
 permissions:
   contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: maven
-
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml       
-
-    - name: Copy Jar file
-      run: mv target/mavendemo-0.0.1-SNAPSHOT.jar project.jar      
-    
-    - uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact
-        path: project.jar
-
+    uses: ${{ github.repository }}/.github/workflows/maven-build-job@main
+    with:
+      java-version: '11'
+    secrets:
+      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
   semver:
     needs: build
     runs-on: ubuntu-latest

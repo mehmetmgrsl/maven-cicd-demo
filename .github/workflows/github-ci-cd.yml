@@ -73,9 +73,6 @@ jobs:
       run: |
         version=${{ env.latest-version }}
 
-
-        new_version="";
-
         if [ "$version" == "null" ]; then
            major="0"
            minor="0"

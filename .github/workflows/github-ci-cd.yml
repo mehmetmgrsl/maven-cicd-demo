@@ -9,7 +9,8 @@ permissions:
 
 jobs:
   build:
-    uses: ${{ github.repository }}/.github/workflows/maven-build-job.yml@main
+    #uses: ${{ github.repository }}/.github/workflows/maven-build-job.yml@main # todo
+    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build-job.yml@main
     with:
       java-version: '11'
     secrets:

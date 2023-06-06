@@ -6,9 +6,6 @@ on:
       java-version:
         required: true
         type: string
-    secrets:
-      DOCKER_PAT:
-        required: true
 
 jobs:
   build:

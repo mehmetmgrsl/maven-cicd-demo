@@ -9,12 +9,9 @@ permissions:
 
 jobs:
   build:
-    #uses: ${{ github.repository }}/.github/workflows/maven-build-job.yml@feature/common-ci-cd # todo
     uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build-job.yml@feature/common-ci-cd
     with:
       java-version: '11'
-    secrets:
-      DOCKER_PAT: ${{ secrets.DOCKER_PAT }}
   semver:
     needs: build
     runs-on: ubuntu-latest

@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build:
-    uses: ${{ github.repository }}/.github/workflows/maven-build-job@main
+    uses: ${{ github.repository }}/.github/workflows/maven-build-job.yml@main
     with:
       java-version: '11'
     secrets:

@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build:
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build-job.yml@feature/common-ci-cd
+    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build.yml@feature/common-ci-cd
     with:
       java-version: '11'
   semver:

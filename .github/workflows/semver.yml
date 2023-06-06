@@ -1,0 +1,94 @@
+name: Reusable Semver Workflow
+
+on:
+  workflow_call:
+    inputs:
+      sem_ver_increment:
+        required: true
+        type: string
+    secrets:
+      docker_pat:
+        required: true
+
+jobs:
+  semver:
+    runs-on: ubuntu-latest
+    outputs:
+      new-version: ${{ steps.increment_version.outputs.version }}
+      latest-version: ${{ steps.increment_version.outputs.version }}
+    
+    steps: 
+    - name: Login to GitHub Container Registry
+      id: login_github_registry
+
+      uses: docker/login-action@v2
+      with:
+         registry: ghcr.io
+         username: ${{ github.actor }}
+         password: ${{ secrets.docker_pat }}
+
+
+    - name: Get latest Docker image version
+      id: get_latest_version
+      run: |
+        REPO_NAME=$(basename "${{ github.repository }}")
+        OWNER=$(echo "${{ github.repository }}" | cut -d'/' -f1)
+        PACKAGE_NAME="${OWNER}/${REPO_NAME}"
+        RESPONSE=$(curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.docker_pat }}" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/users/$OWNER/packages/container/$REPO_NAME/versions)
+        echo "RESPONSE: $RESPONSE"
+
+        if [[ "$RESPONSE" == *"Package not found"* ]]; then
+          VERSION="null"
+        else
+          VERSION=$(echo "$RESPONSE" | jq -r '.[0].metadata.container.tags[0]')
+        fi        
+
+        echo "latest-version=$VERSION" >> "$GITHUB_ENV"
+
+          
+    - name: Increment version
+      id: increment_version
+      run: |
+        version=${{ env.latest-version }}
+
+        if [ "$version" == "null" ]; then
+           major="0"
+           minor="0"
+           patch="0"
+        else
+           IFS='.' read -ra version_parts <<< "${version#v}"
+
+           major="${version_parts[0]}"
+           minor="${version_parts[1]}"
+           patch="${version_parts[2]}"
+
+           echo "Current version:" 
+           echo "major: $major" 
+           echo "minor: $minor" 
+           echo "patch: $patch" 
+        fi
+
+
+        case "${{ inputs.sem_ver_increment }}" in
+        "MAJOR")
+          major=$((major + 1))
+          minor="0"
+          patch="0"
+          ;;
+        "MINOR")
+          minor=$((minor + 1))
+          patch="0"
+          ;;
+        "PATCH")
+          patch=$((patch + 1))
+          ;;
+        *)
+          echo "Invalid version component selected. (Select MAJOR, MINOR, or PATCH)"
+          exit 1
+          ;;
+        esac 
+
+        new_version="v$major.$minor.$patch"
+
+        echo "Updated version: $new_version"
+        echo "version=$new_version" >> "$GITHUB_OUTPUT"

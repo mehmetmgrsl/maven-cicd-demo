@@ -1,4 +1,4 @@
-name: Reusable Maven Build Job
+name: Reusable Maven Build Workflow
 
 on:
   workflow_call:

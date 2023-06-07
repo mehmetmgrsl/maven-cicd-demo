@@ -2,7 +2,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "common-workflow" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read

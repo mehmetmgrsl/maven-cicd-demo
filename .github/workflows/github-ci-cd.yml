@@ -2,19 +2,20 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "common-workflow" ]
 
 permissions:
   contents: read
-
 jobs:
   build:
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/maven-build.yml@main
     with:
       java-version: '11'
+      artifact-name: my-artifact
+      artifact-path: my-artifact-path
   semver:
     needs: build
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/semver.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/semver.yml@main
     with:
       sem_ver_increment: ${{ vars.SEM_VER_INCREMENT }}
     secrets:
@@ -22,10 +23,10 @@ jobs:
 
   publish:
     needs: [build, semver]
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/publish.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish.yml@main
     with:
       version: ${{ needs.semver.outputs.version }}
       artifact-name: my-artifact
-      artifact-path: project.jar
+      artifact-path: my-artifact-path
     secrets:
       docker_pat: ${{ secrets.DOCKER_PAT }}

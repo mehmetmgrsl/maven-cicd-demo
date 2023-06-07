@@ -13,7 +13,6 @@ or
 ```docker run -p 8080:8080 maven-demo```
 
 
-
 http://localhost:8080/test
 
 

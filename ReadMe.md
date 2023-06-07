@@ -39,3 +39,4 @@ Resources:
 2. https://github.com/actions/upload-artifact
 3. https://github.com/actions/download-artifact
 4. [GitHub Actions Tutorial - Basic Concepts and CI/CD Pipeline with Docker](https://www.youtube.com/watch?v=R8_veQiYBjI)
+5. https://docs.github.com/en/actions/using-workflows/reusing-workflows

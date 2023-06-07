@@ -50,6 +50,6 @@ jobs:
         echo ${{needs.semver.outputs}}
         echo ${{needs.semver.semver.outputs}}
 
-        version=${{needs.semver.semver.outputs.new-version}}
+        version=${{needs.semver.outputs.version}}
         docker build -t ghcr.io/${{ github.repository }}:$version . 
         docker push ghcr.io/${{ github.repository }}:$version

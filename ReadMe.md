@@ -13,7 +13,6 @@ or
 ```docker run -p 8080:8080 maven-demo```
 
 
-
 http://localhost:8080/test
 
 
@@ -32,6 +31,7 @@ This GitHub Actions workflow (on main branch):
  ### Preconditions
 - define DOCKER_PAT as a secret to access GitHub Container Registry
 - define SEM_VER_INCREMENT as a variable with setting one of the value (MAJOR, MINOR or PATCH)
+- Depends on https://github.com/mehmetmgrsl/github-common-workflows
 
 
 Resources:

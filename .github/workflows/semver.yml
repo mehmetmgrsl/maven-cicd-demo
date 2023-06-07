@@ -6,6 +6,10 @@ on:
       sem_ver_increment:
         required: true
         type: string
+    outputs:
+      version:
+        description: "The new version of the docker image"
+        value: ${{ jobs.semver.outputs.new-version }}      
     secrets:
       docker_pat:
         required: true
@@ -15,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       new-version: ${{ steps.increment_version.outputs.version }}
-      latest-version: ${{ steps.increment_version.outputs.version }}
     
     steps: 
     - name: Login to GitHub Container Registry

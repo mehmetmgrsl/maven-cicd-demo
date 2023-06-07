@@ -2,19 +2,19 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "feature/common-ci-cd" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
 
 jobs:
   build:
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build.yml@feature/common-ci-cd
+    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/maven-build.yml@main
     with:
       java-version: '11'
   semver:
     needs: build
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/semver.yml@feature/common-ci-cd
+    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/semver.yml@main
     with:
       sem_ver_increment: ${{ vars.SEM_VER_INCREMENT }}
     secrets:
@@ -22,7 +22,7 @@ jobs:
 
   publish:
     needs: [build, semver]
-    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/publish.yml@feature/common-ci-cd
+    uses: mehmetmgrsl/maven-cicd-demo/.github/workflows/publish.yml@main
     with:
       version: ${{ needs.semver.outputs.version }}
       artifact-name: my-artifact

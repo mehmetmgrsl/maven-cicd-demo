@@ -47,6 +47,9 @@ jobs:
 
       run: |
         echo $GITHUB_OUTPUT
+        echo ${{needs.semver.outputs}}
+        echo ${{needs.semver.semver.outputs}}
+
         version=${{needs.semver.semver.outputs.new-version}}
         docker build -t ghcr.io/${{ github.repository }}:$version . 
         docker push ghcr.io/${{ github.repository }}:$version

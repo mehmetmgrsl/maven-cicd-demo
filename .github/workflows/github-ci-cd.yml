@@ -22,7 +22,7 @@ jobs:
 
   publish:
     needs: [build, semver]
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish.yml@self-hosted-runner
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish-common.yml@self-hosted-runner
     with:
       version: ${{ needs.semver.outputs.version }}
       artifact-name: my-artifact

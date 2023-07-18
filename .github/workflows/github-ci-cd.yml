@@ -1,5 +1,4 @@
 name: CI/CD with Maven/Docker
-
 on:
   push:
     branches: [ "self-hosted-runner" ]

@@ -17,8 +17,6 @@ jobs:
     uses: mehmetmgrsl/github-common-workflows/.github/workflows/semver.yml@self-hosted-runner
     with:
       sem_ver_increment: ${{ vars.SEM_VER_INCREMENT }}
-    secrets:
-      docker_pat: ${{ secrets.DOCKER_PAT }} 
 
   publish:
     needs: [build, semver]
@@ -27,5 +25,3 @@ jobs:
       version: ${{ needs.semver.outputs.version }}
       artifact-name: my-artifact
       artifact-path: my-artifact-path
-    secrets:
-      docker_pat: ${{ secrets.DOCKER_PAT }}

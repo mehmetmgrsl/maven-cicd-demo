@@ -2,20 +2,20 @@ name: CI/CD with Maven/Docker
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "self-hosted-runner" ]
 
 permissions:
   contents: read
 jobs:
   build:
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/maven-build.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/maven-build.yml@self-hosted-runner
     with:
       java-version: '11'
       artifact-name: my-artifact
       artifact-path: my-artifact-path
   semver:
     needs: build
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/semver.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/semver.yml@self-hosted-runner
     with:
       sem_ver_increment: ${{ vars.SEM_VER_INCREMENT }}
     secrets:
@@ -23,7 +23,7 @@ jobs:
 
   publish:
     needs: [build, semver]
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish.yml@main
+    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish.yml@self-hosted-runner
     with:
       version: ${{ needs.semver.outputs.version }}
       artifact-name: my-artifact

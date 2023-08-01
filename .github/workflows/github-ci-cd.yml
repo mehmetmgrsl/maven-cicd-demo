@@ -20,9 +20,13 @@ jobs:
 
     - name: Install PMD
       run: |
-        curl -O https://pmd.github.io/pmd-dist-7.0.0-rc3/pmd-dist-7.0.0-rc3-bin.zip
-        unzip pmd-dist-7.0.0-rc3.zip
+        curl -O https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.0.0-rc3/pmd-dist-7.0.0-rc3-bin.zip
+        unzip pmd-dist-7.0.0-rc3-bin.zip
+
 
     - name: Run PMD
-      run: ./pmd-dist-7.0.0-rc3/bin/run.sh pmd -d . -R rulesets/java/security.xml -f textcolor
+      run: ./pmd-bin-7.0.0-rc3/bin/run.sh pmd -d . -R rulesets/java/security.xml -f textcolor
+
+
+
 

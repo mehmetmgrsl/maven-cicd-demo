@@ -1,32 +1,26 @@
-name: CI/CD with Maven/Docker
+name: SAST
 
-on:
-  push:
-    branches: [ "main" ]
+on: [push]
 
-permissions:
-  contents: read
 jobs:
-  build:
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/maven-build.yml@main
-    with:
-      java-version: '11'
-      artifact-name: my-artifact
-      artifact-path: my-artifact-path
-  semver:
-    needs: build
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/semver.yml@main
-    with:
-      sem_ver_increment: ${{ vars.SEM_VER_INCREMENT }}
-    secrets:
-      docker_pat: ${{ secrets.DOCKER_PAT }} 
+  pmd:
+    name: PMD SAST
+    runs-on: ubuntu-latest
 
-  publish:
-    needs: [build, semver]
-    uses: mehmetmgrsl/github-common-workflows/.github/workflows/publish.yml@main
-    with:
-      version: ${{ needs.semver.outputs.version }}
-      artifact-name: my-artifact
-      artifact-path: my-artifact-path
-    secrets:
-      docker_pat: ${{ secrets.DOCKER_PAT }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Install PMD
+      run: |
+        curl -O https://pmd.github.io/pmd-6.38.0/pmd-bin-6.38.0.zip
+        unzip pmd-bin-6.38.0.zip
+
+    - name: Run PMD
+      run: ./pmd-bin-6.38.0/bin/run.sh pmd -d . -R rulesets/java/security.xml -f textcolor
+

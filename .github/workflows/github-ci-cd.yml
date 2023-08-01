@@ -15,7 +15,7 @@ jobs:
         java-version: '11'
     - uses: pmd/pmd-github-action@v1
       with:
-        sourcePath: 'src/main/java'
+        sourcePath: 'src/main/java/com/example/mavendemo'
         rulesets: 'ruleset.xml'
 
 
